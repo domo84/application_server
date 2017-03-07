@@ -2,6 +2,8 @@
 
 "use strict";
 
+const fork = require("child_process").fork;
+
 const Environment = require("../lib/environment");
 const WebServer = require("../lib/web_server");
 const Babel = require("../lib/babel");
@@ -9,29 +11,7 @@ const Sass = require("../lib/sass");
 const StaticFiles = require("../lib/static_files");
 const Watcher = require("../lib/watcher");
 
-let env = new Environment();
-env.setup();
-
-/*
-let babel = new Babel(env);
-babel.run();
-
-let sass = new Sass(env);
-sass.run();
-
-let sf = new StaticFiles(env);
-sf.copy();
-
-let ws = new WebServer(env);
-pids.web_server = ws.start().pid;
-
-let watcher = new Watcher();
-pids.watcher = watcher.start().pid;
-
-env.save(pids);
-*/
-
-const fork = require("child_process").fork;
+start();
 
 var workers = { 
 	watcher: fork(__dirname + "/../workers/watcher", [], {}),
@@ -39,13 +19,17 @@ var workers = {
 	reload: fork(__dirname + "/../workers/reload", [], {})
 };
 
-/*
-env.save(
+function start()
 {
-	watcher: workers.watcher.pid,
-	web_server: workers.web_server.pid
-});
-*/
+	let env = new Environment();
+	env.setup();
 
-// let watcher = new Watcher({});
-// watcher.start();
+	let babel = new Babel(env);
+	babel.run();
+
+	let sass = new Sass(env);
+	sass.run();
+
+	let sf = new StaticFiles(env);
+	sf.copy();
+}
