@@ -1,7 +1,7 @@
 "use strict";
 
 const fs = require("fs");
-const spawn = require("child_process").spawn;
+const spawnSync = require("child_process").spawnSync;
 const mkdirp = require("mkdirp");
 
 class StaticFiles
@@ -40,7 +40,10 @@ class StaticFiles
 
 		const out = fs.openSync(this.logs.stdout, "a");
 		const err = fs.openSync(this.logs.stderr, "a");
-		spawn("cp", args, { stdio: [ "ignore", out, err ] }); 
+
+		let result = spawnSync("cp", args, { stdio: [ "ignore", out, err ] }); 
+
+		return result.status === 0 ? true : false;
 	}
 
 	_copyImage(filename)

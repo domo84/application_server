@@ -6,10 +6,11 @@ const fork = require("child_process").fork;
 
 const Environment = require("../lib/environment");
 const WebServer = require("../lib/web_server");
-const Babel = require("../lib/babel");
-const Sass = require("../lib/sass");
-const StaticFiles = require("../lib/static_files");
 const Watcher = require("../lib/watcher");
+
+const Babel = require("../tasks/babel");
+const Sass = require("../tasks/sass");
+const StaticFiles = require("../tasks/static_files");
 
 start();
 
