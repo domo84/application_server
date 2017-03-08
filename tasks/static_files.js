@@ -25,9 +25,14 @@ class StaticFiles
 	{
 		let source = process.cwd() + "/src/html/index.html";
 		let target = this.env.paths.gen + "/index.html";
-		fs.readFile(source, "utf8", function(data)
+
+		fs.readFile(source, "utf8", (err, data) =>
 		{
-			fs.writeFile(target, data);
+			if(err) {
+				console.log(err);
+			} else {
+				fs.writeFile(target, data);
+			}
 		});
 	}
 
