@@ -24,6 +24,12 @@ class Babel
 		const err = fs.openSync(this.logs.stderr, "a");
 		
 		let cmd = "./scripts/babel.sh";
+
+		if(!fs.existsSync(cmd))
+		{
+			cmd = "./node_modules/domo_as/scripts/babel.sh";
+		}
+
 		let opts = {
 			cwd: this.env.paths.cmd,
 			stdio: ["ignore", out, err]
