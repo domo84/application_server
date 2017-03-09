@@ -27,7 +27,7 @@ class Babel
 
 		if(!fs.existsSync(cmd))
 		{
-			cmd = "./node_modules/domo_as/scripts/babel.sh";
+			cmd = process.cwd() + "/node_modules/domo_as/scripts/babel.sh";
 		}
 
 		let opts = {
