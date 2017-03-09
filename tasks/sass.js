@@ -24,12 +24,13 @@ class Sass
 		const err = fs.openSync(this.logs.stderr, "a");
 
 		let cmd = "./node_modules/.bin/node-sass";
+		let args = [entry, exit, "--include-path", "node_modules"];
 		let opts = {
 			cwd: this.env.paths.cmd,
 			stdio: ["ignore", out, err]
 		};
 
-		let result = spawnSync(cmd, [entry, exit], opts);
+		let result = spawnSync(cmd, args, opts);
 
 		if(result.status === 0)
 		{
