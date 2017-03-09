@@ -8,7 +8,7 @@
   },
   "bin": {
     "application_server": "./bin/start.js",
-	"generate_libs": "./bin/scripts.lib.js"
+	"generate_libs": "./bin/deps.js"
   },
   "author": "",
   "license": "ISC",
