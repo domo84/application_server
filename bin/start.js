@@ -9,6 +9,7 @@ const Environment = require("../lib/environment");
 const Babel = require("../tasks/babel");
 const Sass = require("../tasks/sass");
 const StaticFiles = require("../tasks/static_files");
+const MyBrowserify = require("../tasks/my_browserify");
 
 var start_date = new Date();
 
@@ -29,6 +30,9 @@ function start()
 
 	let sf = new StaticFiles(env);
 	sf.copy();
+
+	let mb = new MyBrowserify(env);
+	mb.createLibs();
 
 	var workers = { 
 		watcher: fork(__dirname + "/../workers/watcher", [], {}),
