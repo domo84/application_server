@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "application_server": "./bin/start.js"
+    "application_server": "./bin/start.js",
+	"generate_libs": "./bin/scripts.lib.js"
   },
   "author": "",
   "license": "ISC",

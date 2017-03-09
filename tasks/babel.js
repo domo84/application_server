@@ -35,7 +35,7 @@ class Babel
 			stdio: ["ignore", out, err]
 		};
 
-		let result = spawnSync(cmd, [entry, exit], opts);
+		let result = spawnSync(cmd, ["-e", entry, "-o", exit, "--bare"], opts);
 
 		return result.status === 0 ? true : false;
 	}

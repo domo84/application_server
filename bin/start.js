@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* global require, __dirname, process */
 
 "use strict";
 
