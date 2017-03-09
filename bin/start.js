@@ -1,12 +1,11 @@
 #!/usr/bin/env node
+/* global require, __dirname, process */
 
 "use strict";
 
 const fork = require("child_process").fork;
 
 const Environment = require("../lib/environment");
-const WebServer = require("../lib/web_server");
-const Watcher = require("../lib/watcher");
 
 const Babel = require("../tasks/babel");
 const Sass = require("../tasks/sass");
@@ -39,7 +38,7 @@ function start()
 	};
 }
 
-process.on('SIGINT', function()
+process.on("SIGINT", function()
 {
 	console.log("");
 	log_stop();
@@ -68,5 +67,5 @@ function log_stop()
 	let elapsed_time = now.getTime() - start_date.getTime() + "ms";
 	let ts = now.toTimeString().substr(0, 8);
 
-	console.log("[X]", `[${ts}]`, "application_closing", elapsed_time);
+	console.log("[X]", `[${ts}]`, "application_server", "closing", elapsed_time);
 }
