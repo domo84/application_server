@@ -1,16 +1,16 @@
 "use strict";
 
 const Environment = require("../lib/environment");
-const socket = require("socket.io")();
 
 let env = new Environment();
+let port = env.config.application_server.reload;
 
-socket.listen(env.config.application_server.reload);
+const io = require("socket.io")(port);
 
-socket.on("connection", function(socket)
+io.on("connection", function(socket)
 {
 	socket.on("bump", function()
 	{
-		socket.emit("reload");
+		io.emit("reload");
 	});
 });
