@@ -17,7 +17,7 @@ class Babel
 
 	run()
 	{
-		let entry = process.cwd() + "/src/es2017/app.js";
+		let entry = process.cwd() + "/" + this.env.config.main;
 		let exit = this.env.paths.gen + "/scripts.js";
 
 		const out = fs.openSync(this.logs.stdout, "a");
@@ -27,7 +27,7 @@ class Babel
 
 		if(!fs.existsSync(cmd))
 		{
-			cmd = process.cwd() + "/node_modules/domo_as/scripts/babel.sh";
+			cmd = process.cwd() + "/node_modules/application_server/scripts/babel.sh";
 		}
 
 		let opts = {
