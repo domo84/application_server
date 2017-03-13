@@ -7,4 +7,4 @@ const MyBrowserify = require("../tasks/my_browserify");
 
 let env = new Environment();
 let mb = new MyBrowserify(env);
-mb.creataLibs();
+mb.createLibs();

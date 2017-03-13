@@ -16,7 +16,7 @@ class MyBrowserfy
 		let out = this.env.paths.gen + "/scripts.lib.js";
 		let b = browserify();
 
-		const stream = fs.createWriteStream(out, { flags: "a" });
+		const stream = fs.createWriteStream(out);
 
 		for(var dep in this.env.config.dependencies)
 		{
