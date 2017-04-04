@@ -37,7 +37,7 @@ function log_start()
 {
 	let ts = start_date.toTimeString().substr(0, 8);
 
-	console.log("[X]", `[${ts}]`, "application_server", "starting");
+	console.log("[X]", `[${ts}]`, "application_server", "building");
 }
 
 function log_done()
@@ -45,4 +45,6 @@ function log_done()
 	let now = new Date();
 	let elapsed_time = now.getTime() - start_date.getTime() + "ms";
 	let ts = now.toTimeString().substr(0, 8);
+
+	console.log("[X]", `[${ts}]`, "application_server", "done", elapsed_time);
 }
