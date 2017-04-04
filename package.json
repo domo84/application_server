@@ -8,6 +8,7 @@
   },
   "bin": {
     "application_server": "./bin/start.js",
+	"application_server_build": "./bin/build.js",
     "generate_libs": "./bin/deps.js"
   },
   "author": "",
