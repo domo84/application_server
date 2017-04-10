@@ -1,7 +1,6 @@
 "use strict";
 
 const fs = require("fs");
-const Environment = require("../lib/environment");
 const browserify = require("browserify");
 
 class MyBrowserfy
@@ -21,6 +20,13 @@ class MyBrowserfy
 		for(var dep in this.env.config.dependencies)
 		{
 			b.require(dep);
+		}
+
+		if(this.env.type === "prod")
+		{
+			b.transform({
+				global: true
+			}, "uglifyify");
 		}
 
 		b.bundle().pipe(stream);
