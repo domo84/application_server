@@ -3,7 +3,7 @@
 const Environment = require("../lib/environment");
 
 let env = new Environment();
-let port = env.config.application_server.reload;
+let port = env.config.application_server.reload.port;
 
 const io = require("socket.io")(port);
 
