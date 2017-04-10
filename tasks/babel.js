@@ -23,11 +23,18 @@ class Babel
 		const out = fs.openSync(this.logs.stdout, "a");
 		const err = fs.openSync(this.logs.stderr, "a");
 		
-		let cmd = "./scripts/babel.sh";
+		let cmd = "./scripts/babel_dev.sh";
 
 		if(!fs.existsSync(cmd))
 		{
-			cmd = process.cwd() + "/node_modules/application_server/scripts/babel.sh";
+			if(this.env.type == "dev")
+			{
+				cmd = process.cwd() + "/node_modules/application_server/scripts/babel_dev.sh";
+			}
+			else
+			{
+				cmd = process.cwd() + "/node_modules/application_server/scripts/babel_prod.sh";
+			}
 		}
 
 		let opts = {

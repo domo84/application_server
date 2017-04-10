@@ -8,7 +8,7 @@
   },
   "bin": {
     "application_server": "./bin/start.js",
-	"application_server_build": "./bin/build.js",
+    "application_server_build": "./bin/build.js",
     "generate_libs": "./bin/deps.js"
   },
   "author": "",
@@ -20,12 +20,14 @@
     "babelify": "^7.3.0",
     "browserify": "^14.1.0",
     "chalk": "^1.1.3",
+    "envify": "^4.0.0",
     "jstify": "^0.14.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.5.0",
     "node-underscorify": "0.0.14",
     "node-watch": "^0.4.1",
     "socket.io": "^1.7.3",
-    "socket.io-client": "^1.7.3"
+    "socket.io-client": "^1.7.3",
+    "uglifyify": "^3.0.4"
   }
 }

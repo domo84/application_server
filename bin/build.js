@@ -20,6 +20,7 @@ function build()
 	let env = new Environment();
 	env.setup();
 
+	env.type = "prod";
 	let babel = new Babel(env);
 	babel.run();
 
