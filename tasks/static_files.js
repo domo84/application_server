@@ -31,7 +31,13 @@ class StaticFiles
 			if(err) {
 				console.log(err);
 			} else {
-				fs.writeFile(target, data);
+				fs.writeFile(target, data, function()
+				{
+					// callback-less asyncs are not allowed ..
+					// so what do we put here. Hmm
+					// comments?
+					// guten dojten allehoijten
+				});
 			}
 		});
 	}
