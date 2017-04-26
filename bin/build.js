@@ -4,7 +4,6 @@
 
 const Environment = require("../lib/environment");
 
-const Babel = require("../tasks/babel");
 const Sass = require("../tasks/sass");
 const StaticFiles = require("../tasks/static_files");
 const MyBrowserify = require("../tasks/my_browserify");
@@ -17,12 +16,10 @@ log_done();
 
 function build()
 {
+	env.type = "prod";
+
 	let env = new Environment();
 	env.setup();
-
-	env.type = "prod";
-	let babel = new Babel(env);
-	babel.run();
 
 	let sass = new Sass(env);
 	sass.run();
@@ -32,6 +29,7 @@ function build()
 
 	let mb = new MyBrowserify(env);
 	mb.createLibs();
+	mb.run();
 }
 
 function log_start()

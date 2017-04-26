@@ -6,7 +6,6 @@ const fork = require("child_process").fork;
 
 const Environment = require("../lib/environment");
 
-const Browserify = require("../tasks/browserify");
 const Sass = require("../tasks/sass");
 const StaticFiles = require("../tasks/static_files");
 const MyBrowserify = require("../tasks/my_browserify");
@@ -22,9 +21,6 @@ function start()
 	let env = new Environment();
 	env.setup();
 
-	let Browserify = new Browserify(env);
-	browserify.run();
-
 	let sass = new Sass(env);
 	sass.run();
 
@@ -33,6 +29,7 @@ function start()
 
 	let mb = new MyBrowserify(env);
 	mb.createLibs();
+	mb.run();
 
 	var workers = { 
 		watcher: fork(__dirname + "/../workers/watcher", [], {}),
