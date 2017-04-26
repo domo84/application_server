@@ -49,7 +49,7 @@ class MyBrowserfy
 			result = false;
 
             this.emit("end");
-        }).pipe(fs.createFileStream(exit));
+        }).pipe(fs.createWriteStream(exit));
 
 		return result;
 	}
