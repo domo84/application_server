@@ -16,10 +16,9 @@ log_done();
 
 function build()
 {
-	env.type = "prod";
-
 	let env = new Environment();
 	env.setup();
+	env.type = "prod";
 
 	let sass = new Sass(env);
 	sass.run();

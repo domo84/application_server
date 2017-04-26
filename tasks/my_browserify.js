@@ -8,7 +8,7 @@ class MyBrowserfy
 	constructor(env)
 	{
 		this.env = env;
-		this.isDev = env.type == "dev";
+		this.isDev = env.type === "dev";
 	}
 
 	run()
@@ -33,7 +33,7 @@ class MyBrowserfy
 
         if(!this.isDev)
         {
-            b.transform("uglifyify");
+            b.transform({ global: true }, "uglifyify");
         }
 
         b.transform("node-underscorify");
@@ -66,7 +66,7 @@ class MyBrowserfy
 			b.require(dep);
 		}
 
-		if(this.env.type === "prod")
+		if(!this.isDev)
 		{
 			b.transform({
 				global: true
