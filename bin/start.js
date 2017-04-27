@@ -26,7 +26,7 @@ function start()
 	let mb = new MyBrowserify(env);
 
 	let promise = new Promise.all([
-		sf.copy();
+		sf.copy(),
 		sass.run(),
 		mb.createLibs(),
 		mb.run()
