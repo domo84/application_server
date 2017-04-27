@@ -21,12 +21,16 @@ function start()
 	env.setup();
 
 	let sf = new StaticFiles(env);
-	sf.copy();
 
 	let sass = new Sass(env);
 	let mb = new MyBrowserify(env);
 
-	let promise = new Promise.all([sass.run(), mb.createLibs(), mb.run()]);
+	let promise = new Promise.all([
+		sf.copy();
+		sass.run(),
+		mb.createLibs(),
+		mb.run()
+	]);
 	promise.done(function ok(res)
 	{
 		log_ready();

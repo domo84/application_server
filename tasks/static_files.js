@@ -3,6 +3,7 @@
 const fs = require("fs");
 const spawnSync = require("child_process").spawnSync;
 const mkdirp = require("mkdirp");
+const Promise = require("promise");
 
 class StaticFiles
 {
@@ -17,8 +18,7 @@ class StaticFiles
 
 	copy()
 	{
-		this.copyIndex();
-		this.copyImages();
+		return new Promise.all([this.copyIndex(), this.copyImages()]);
 	}
 
 	copyIndex()
