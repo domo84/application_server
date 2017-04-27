@@ -35,7 +35,8 @@ class Sass
 				}
 				else
 				{
-					fs.writeFile(exit, res, function()
+					let css = res.css.toString();
+					fs.writeFile(exit, css, function()
 					{
 						fulfill();
 					});
