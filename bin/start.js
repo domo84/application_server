@@ -21,15 +21,19 @@ function start()
 	let env = new Environment();
 	env.setup();
 
-	let sass = new Sass(env);
-	sass.run();
-
 	let sf = new StaticFiles(env);
 	sf.copy();
 
+	let sass = new Sass(env);
 	let mb = new MyBrowserify(env);
-	mb.createLibs();
-	mb.run();
+
+	let promise = new Promise.all([sass.run(), mb.createLibs(), mb.run()]);
+	promise.done(function ok(res)
+	{
+		log_ready();
+	}, function err(err)
+	{
+	});
 
 	var workers = { 
 		watcher: fork(__dirname + "/../workers/watcher", [], {}),

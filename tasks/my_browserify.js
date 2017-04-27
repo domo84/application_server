@@ -94,7 +94,7 @@ class MyBrowserfy
 				reject(err);
 				this.emit("end");
 			}).pipe(stream);
-		}
+		});
 	}
 }
 
