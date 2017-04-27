@@ -3,21 +3,20 @@
 "use strict";
 
 const fork = require("child_process").fork;
-
+const Promise = require("promise");
 const Environment = require("../lib/environment");
-
 const Sass = require("../tasks/sass");
 const StaticFiles = require("../tasks/static_files");
 const MyBrowserify = require("../tasks/my_browserify");
 
 var start_date = new Date();
 
-log_start();
 start();
-log_ready();
 
 function start()
 {
+	log_start();
+
 	let env = new Environment();
 	env.setup();
 
@@ -33,6 +32,7 @@ function start()
 		log_ready();
 	}, function err(err)
 	{
+		console.error("ERROR", "HapnD");
 	});
 
 	var workers = { 

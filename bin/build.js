@@ -2,20 +2,20 @@
 
 "use strict";
 
+const Promise = require("promise");
 const Environment = require("../lib/environment");
-
 const Sass = require("../tasks/sass");
 const StaticFiles = require("../tasks/static_files");
 const MyBrowserify = require("../tasks/my_browserify");
 
 var start_date = new Date();
 
-log_start();
 build();
-log_done();
 
 function build()
 {
+	log_start();
+
 	let env = new Environment();
 	env.setup();
 	env.type = "prod";
@@ -23,12 +23,17 @@ function build()
 	let sass = new Sass(env);
 	sass.run();
 
-	let sf = new StaticFiles(env);
-	sf.copy();
-
 	let mb = new MyBrowserify(env);
-	mb.createLibs();
-	mb.run();
+	let sf = new StaticFiles(env);
+
+	let promise = new Promise.all([sass.run(), mb.createLibs(), mb.run()]);
+	promise.done(function ok(res)
+	{
+		log_done();
+	}, function err(err)
+	{
+		console.error("ERROR Hapnd");
+	});
 }
 
 function log_start()
