@@ -12,7 +12,7 @@ class MyBrowserfy
 
 		let opts = {
 			debug: false,
-			bundleExternal: true
+			bundleExternal: false
 		};
 
 		if(this.isDev)
@@ -44,7 +44,6 @@ class MyBrowserfy
 
 		return b;
 	}
-
 
 	run()
 	{

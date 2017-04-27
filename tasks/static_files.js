@@ -62,7 +62,7 @@ class StaticFiles
 			let result = spawnSync("cp", args, {
 				stdio: [ "ignore", out, err ]
 			}); 
-			result.status === 0 ? fullfil() : reject();
+			result.status === 0 ? fulfill() : reject();
 		});
 	}
 

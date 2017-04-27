@@ -37,7 +37,7 @@ function build()
 		log_done();
 	}, function err(err)
 	{
-		console.error("ERROR Hapnd");
+		console.error("ERROR", err);
 	});
 }
 
