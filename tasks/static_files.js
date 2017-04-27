@@ -17,32 +17,37 @@ class StaticFiles
 
 	copy()
 	{
-		this._copyIndex();
-		this._copyImages();
+		this.copyIndex();
+		this.copyImages();
 	}
 
-	_copyIndex()
+	copyIndex()
 	{
 		let source = process.cwd() + "/src/html/index.html";
 		let target = this.env.paths.gen + "/index.html";
 
-		fs.readFile(source, "utf8", (err, data) =>
+		return new Promise(function(fulfill, reject)
 		{
-			if(err) {
-				console.log(err);
-			} else {
-				fs.writeFile(target, data, function()
-				{
-					// callback-less asyncs are not allowed ..
-					// so what do we put here. Hmm
-					// comments?
-					// guten dojten allehoijten
-				});
-			}
+			fs.readFile(source, "utf8", (err, data) =>
+			{
+				if(err) {
+					reject(err);
+				} else {
+					fs.writeFile(target, data, function()
+					{
+						// callback-less asyncs are not allowed ..
+						// so what do we put here. Hmm
+						// comments?
+						// -- guten dojten allehoijten --
+						// och så fann vi en anledning ->
+						fulfill();
+					});
+				}
+			});
 		});
 	}
 
-	_copyImages()
+	copyImages()
 	{
 		let source = process.cwd() + "/src/images";
 		let target = this.env.paths.gen;
@@ -52,44 +57,55 @@ class StaticFiles
 		const out = fs.openSync(this.logs.stdout, "a");
 		const err = fs.openSync(this.logs.stderr, "a");
 
-		let result = spawnSync("cp", args, { stdio: [ "ignore", out, err ] }); 
-
-		return result.status === 0 ? true : false;
+		return new Promise(function(fulfill, reject)
+		{
+			let result = spawnSync("cp", args, {
+				stdio: [ "ignore", out, err ]
+			}); 
+			result.status === 0 ? fullfil() : reject();
+		});
 	}
 
-	_copyImage(filename)
+	copyImage(filename)
 	{
 		let base = this.env.paths.gen;
 
-		fs.readFile(filename, "utf8", function(data)
+		return new Promise(function(fulfill, reject)
 		{
-			let file = filename.replace(/^src/, "");
-			let target = base + file;
-			let path = base + file.substring(0, file.lastIndexOf("/"));
-			fs.stat(path, function(err, stats)
+			fs.readFile(filename, "utf8", function(data)
 			{
-				if(err)
+				let file = filename.replace(/^src/, "");
+				let target = base + file;
+				let path = base + file.substring(0, file.lastIndexOf("/"));
+				fs.stat(path, function(err, stats)
 				{
-					mkdirp(path, function()
+					if(err)
+					{
+						mkdirp(path, function()
+						{
+							write(target, data);
+						});
+					}
+					else
 					{
 						write(target, data);
-					});
-				}
-				else
-				{
-					write(target, data);
-				}
+					}
 
-				function write(target, data)
-				{
-					fs.writeFile(target, data, function(err)
+					function write(target, data)
 					{
-						if(err)
+						fs.writeFile(target, data, function(err)
 						{
-							console.error("static_files", target);
-						}
-					});
-				}
+							if(err)
+							{
+								reject(err);
+							}
+							else
+							{
+								fulfill();
+							}
+						});
+					}
+				});
 			});
 		});
 	}

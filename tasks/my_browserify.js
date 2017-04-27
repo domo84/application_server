@@ -9,57 +9,69 @@ class MyBrowserfy
 	{
 		this.env = env;
 		this.isDev = env.type === "dev";
+
+		let opts = {
+			debug: false,
+			bundleExternal: true
+		};
+
+		if(this.isDev)
+		{
+			opts.debug = true;
+			opts.bundleExternal = false;
+		}
+
+		this.opts = opts;
 	}
+
+	getBrowserify()
+	{
+		let entry = process.cwd() + "/" + this.env.config.main;
+
+		let b = browserify(this.opts);
+
+		b.add(entry);
+
+		if(!this.isDev)
+		{
+			b.transform({ global: true }, "uglifyify");
+		}
+
+		b.transform("node-underscorify");
+		b.transform("jstify");
+		b.transform("envify");
+		b.transform("babelify", { presets: ["env"] });
+
+		return b;
+	}
+
 
 	run()
 	{
-		let entry = process.cwd() + "/" + this.env.config.main;
 		let exit = this.env.paths.gen + "/scripts.js";
+		let b = this.getBrowserify();
 
-		var opts = { 
-            debug: false,
-            bundleExternal: true
-        };  
+		return new Promise(function(fulfill, reject)
+		{
+			const stream = fs.createWriteStream(exit);
 
-        if(this.isDev)
-        {   
-            opts.debug = true;
-            opts.bundleExternal = false;
-        }   
+			stream.on("finish", function()
+			{
+				fulfill();
+			});
 
-        let b = browserify(opts);
-
-        b.add(entry);
-
-        if(!this.isDev)
-        {
-            b.transform({ global: true }, "uglifyify");
-        }
-
-        b.transform("node-underscorify");
-        b.transform("jstify");
-        b.transform("envify");
-        b.transform("babelify", { presets: ["env"] });
-
-		var result = true;
-        b.bundle().on("error", function(err) {
-            console.error(err.toString());
-            console.error(err.codeFrame);
-
-			result = false;
-
-            this.emit("end");
-        }).pipe(fs.createWriteStream(exit));
-
-		return result;
+			b.bundle().on("error", function(err)
+			{
+				reject(err);
+				this.emit("end");
+			}).pipe(stream);
+		});
 	}
 
 	createLibs()
 	{
 		let out = this.env.paths.gen + "/scripts.lib.js";
 		let b = browserify();
-
-		const stream = fs.createWriteStream(out);
 
 		for(var dep in this.env.config.dependencies)
 		{
@@ -68,13 +80,23 @@ class MyBrowserfy
 
 		if(!this.isDev)
 		{
-			b.transform({
-				global: true
-			}, "uglifyify");
+			b.transform({ global: true }, "uglifyify");
 		}
 
-		b.bundle().pipe(stream);
+		return new Promise(function(fulfill, reject)
+		{
+			const stream = fs.createWriteStream(out);
+
+			stream.on("finish", fulfill);
+
+			b.bundle().on("error", function(err)
+			{
+				reject(err);
+				this.emit("end");
+			}).pipe(stream);
+		}
 	}
 }
+
 
 module.exports = MyBrowserfy;

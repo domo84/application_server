@@ -2,6 +2,8 @@
 
 const fs = require("fs");
 const spawnSync = require("child_process").spawnSync;
+const parser = require("node-sass");
+const Promise = require("promise");
 
 class Sass
 {
@@ -16,6 +18,33 @@ class Sass
 	}
 
 	run()
+	{
+		let entry = process.cwd() + "/src/scss/main.scss";
+		let exit = this.env.paths.gen + "/styles.css";
+
+		return new Promise(function(fulfill, reject)
+		{
+			parser.render({
+				file: entry,
+				includePaths: ["node_modules"]
+			}, function(err, res)
+			{
+				if(err)
+				{
+					reject(err);
+				}
+				else
+				{
+					fs.writeFile(exit, res, function()
+					{
+						fulfill();
+					});
+				}
+			});
+		});
+	}
+
+	_run()
 	{
 		let entry = process.cwd() + "/src/scss/main.scss";
 		let exit = this.env.paths.gen + "/styles.css";

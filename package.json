@@ -28,5 +28,8 @@
     "socket.io": "^1.7.3",
     "socket.io-client": "^1.7.3",
     "uglifyify": "^3.0.4"
+  },
+  "devDependencies": {
+    "promise": "^7.1.1"
   }
 }
