@@ -40,9 +40,9 @@ function start()
 	});
 
 	var workers = { 
-		watcher: fork(__dirname + "/../workers/watcher", [], {}),
+		watcher: fork(__dirname + "/../workers/watcher", [], {})
 		// web_server: fork(__dirname + "/../workers/web_server", [], {}),
-		reload: fork(__dirname + "/../workers/reload", [], {})
+		// reload: fork(__dirname + "/../workers/reload", [], {})
 	};
 }
 
