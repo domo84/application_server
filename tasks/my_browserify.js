@@ -29,9 +29,6 @@ class MyBrowserfy
 			jstify: require("jstify"),
 			envify: require("envify")
 		};
-
-		let exit = env.paths.gen + "/scripts.js";
-		this.stream = fs.createWriteStream(exit);
 	}
 
 	getBrowserify()
@@ -57,11 +54,12 @@ class MyBrowserfy
 
 	run()
 	{
+		let exit = this.env.paths.gen + "/scripts.js";
 		let b = this.getBrowserify();
-		let stream = this.stream;
 
 		return new Promise(function(fulfill, reject)
 		{
+			const stream = fs.createWriteStream(exit);
 			stream.on("finish", function()
 			{
 				fulfill();
