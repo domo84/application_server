@@ -36,7 +36,7 @@ function start()
 		log_ready();
 	}, function err(err)
 	{
-		console.error("ERROR", "HapnD");
+		console.error("ERROR", "HAPND", err);
 	});
 
 	var workers = { 

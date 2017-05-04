@@ -22,6 +22,16 @@ class MyBrowserfy
 		}
 
 		this.opts = opts;
+
+		this.transformers = {
+			babelify: require("babelify"),
+			env: require("babel-preset-env"),
+			jstify: require("jstify"),
+			envify: require("envify")
+		};
+
+		let exit = env.paths.gen + "/scripts.js";
+		this.stream = fs.createWriteStream(exit);
 	}
 
 	getBrowserify()
@@ -37,23 +47,21 @@ class MyBrowserfy
 			b.transform({ global: true }, "uglifyify");
 		}
 
-		b.transform("node-underscorify");
-		b.transform("jstify");
-		b.transform("envify");
-		b.transform("babelify", { presets: ["env"] });
+		// b.transform("node-underscorify");
+		b.transform(this.transformers.jstify);
+		b.transform(this.transformers.envify);
+		b.transform(this.transformers.babelify, { presets: [this.transformers.env] });
 
 		return b;
 	}
 
 	run()
 	{
-		let exit = this.env.paths.gen + "/scripts.js";
 		let b = this.getBrowserify();
+		let stream = this.stream;
 
 		return new Promise(function(fulfill, reject)
 		{
-			const stream = fs.createWriteStream(exit);
-
 			stream.on("finish", function()
 			{
 				fulfill();
