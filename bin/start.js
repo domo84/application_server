@@ -72,8 +72,22 @@ function log_ready()
 function log_stop()
 {
 	let now = new Date();
-	let elapsed_time = now.getTime() - start_date.getTime() + "ms";
+	let elapsed_time = now.getTime() - start_date.getTime();
 	let ts = now.toTimeString().substr(0, 8);
 
-	console.log("[X]", `[${ts}]`, "application_server", "closing", elapsed_time);
+	function msToTime(duration)
+	{
+		var milliseconds = parseInt((duration%1000)/100);
+		var seconds = parseInt((duration/1000)%60);
+		var minutes = parseInt((duration/(1000*60))%60);
+		var hours = parseInt((duration/(1000*60*60))%24);
+
+		hours = (hours < 10) ? "0" + hours : hours;
+		minutes = (minutes < 10) ? "0" + minutes : minutes;
+		seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+		return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+	}
+
+	console.log("[X]", `[${ts}]`, "application_server", "closing", `[uptime ${msToTime(elapsed_time)}]`);
 }
