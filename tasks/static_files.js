@@ -25,14 +25,23 @@ class StaticFiles
 	{
 		let source = process.cwd() + "/src/html/index.html";
 		let target = this.env.paths.gen + "/index.html";
+		let isDev = this.env.isDev;
 
 		return new Promise(function(fulfill, reject)
 		{
 			fs.readFile(source, "utf8", (err, data) =>
 			{
-				if(err) {
+				if(err)
+				{
 					reject(err);
-				} else {
+				}
+				else
+				{
+					if(!isDev)
+					{
+						data = data.replace(/<script dev>(.|[\s\S]*?)<\/script>/, "");
+					}
+				
 					fs.writeFile(target, data, function()
 					{
 						// callback-less asyncs are not allowed ..
