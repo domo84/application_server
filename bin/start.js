@@ -39,7 +39,7 @@ function start()
 		console.error("ERROR", "HAPND", err);
 	});
 
-	var workers = { 
+	var workers = {
 		watcher: fork(__dirname + "/../workers/watcher", [], {})
 		// web_server: fork(__dirname + "/../workers/web_server", [], {}),
 		// reload: fork(__dirname + "/../workers/reload", [], {})

@@ -21,6 +21,7 @@ class Sass
 	{
 		let entry = process.cwd() + "/src/scss/main.scss";
 		let exit = this.env.paths.gen + "/styles.css";
+		let stderr = this.logs.stderr;
 
 		return new Promise(function(fulfill, reject)
 		{
@@ -31,6 +32,11 @@ class Sass
 			{
 				if(err)
 				{
+					fs.writeFile(stderr, err.message + "\n", function()
+					{
+						// not sure what to put here. GREAT SUCCESS perhaps?
+					});
+
 					reject(err);
 				}
 				else
