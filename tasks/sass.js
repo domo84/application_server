@@ -25,6 +25,11 @@ class Sass
 
 		return new Promise(function(fulfill, reject)
 		{
+			if(fs.existsSync(entry) === false)
+			{
+				reject("missing entry for sass task: " + entry);
+			}
+
 			parser.render({
 				file: entry,
 				includePaths: ["node_modules"]
