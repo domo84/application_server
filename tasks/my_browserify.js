@@ -27,7 +27,8 @@ class MyBrowserfy
 			babelify: require("babelify"),
 			env: require("babel-preset-env"),
 			jstify: require("jstify"),
-			envify: require("envify")
+			envify: require("envify"),
+			uglifyify: require("uglifyify")
 		};
 	}
 
@@ -41,7 +42,7 @@ class MyBrowserfy
 
 		if(!this.isDev)
 		{
-			b.transform({ global: true }, "uglifyify");
+			b.transform({ global: true }, this.transformers.uglifyify);
 		}
 
 		// b.transform("node-underscorify");
@@ -85,7 +86,7 @@ class MyBrowserfy
 
 		if(!this.isDev)
 		{
-			b.transform({ global: true }, "uglifyify");
+			b.transform({ global: true }, this.transformers.uglifyify);
 		}
 
 		return new Promise(function(fulfill, reject)
