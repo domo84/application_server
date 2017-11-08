@@ -68,7 +68,7 @@ class MyBrowserfy
 
 			b.bundle().on("error", function(err)
 			{
-				reject(err);
+				reject(err.toString());
 				this.emit("end");
 			}).pipe(stream);
 		});
@@ -78,6 +78,11 @@ class MyBrowserfy
 	{
 		let out = this.env.paths.gen + "/scripts.lib.js";
 		let b = browserify();
+
+		if(this.isDev && this.env.live_reload)
+		{
+			b.add("/as/snippets/live_reload");
+		}
 
 		for(var dep in this.env.config.dependencies)
 		{
