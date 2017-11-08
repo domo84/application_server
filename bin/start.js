@@ -9,7 +9,6 @@ const Environment = require("../lib/environment");
 const Sass = require("../tasks/sass");
 const StaticFiles = require("../tasks/static_files");
 const MyBrowserify = require("../tasks/my_browserify");
-const Reloader = require("../tasks/reload");
 
 var start_date = new Date();
 
@@ -22,14 +21,9 @@ function start()
 	let env = new Environment();
 	env.setup();
 
-	const reloader = new Reloader();
-	try
+	if(env.live_reload == false)
 	{
-		reloader.getConfig();
-	}
-	catch(e)
-	{
-		log_info("livereload not configured. See README.md.", e.message);
+		log_info("livereload not configured. See README.md");
 	}
 
 	let sf = new StaticFiles(env);
