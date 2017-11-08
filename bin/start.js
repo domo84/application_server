@@ -2,12 +2,14 @@
 
 "use strict";
 
+const chalk = require("chalk");
 const fork = require("child_process").fork;
 const Promise = require("promise");
 const Environment = require("../lib/environment");
 const Sass = require("../tasks/sass");
 const StaticFiles = require("../tasks/static_files");
 const MyBrowserify = require("../tasks/my_browserify");
+const Reloader = require("../tasks/reload");
 
 var start_date = new Date();
 
@@ -20,6 +22,16 @@ function start()
 	let env = new Environment();
 	env.setup();
 
+	const reloader = new Reloader();
+	try
+	{
+		reloader.getConfig();
+	}
+	catch(e)
+	{
+		log_info("livereload not configured. See README.md.", e.message);
+	}
+
 	let sf = new StaticFiles(env);
 
 	let sass = new Sass(env);
@@ -31,19 +43,16 @@ function start()
 		mb.createLibs(),
 		mb.run()
 	]);
-	promise.done(function ok(res)
+	promise.done(function ok()
 	{
 		log_ready();
 	}, function err(err)
 	{
-		console.error("ERROR", "HAPND", err);
+		log_error("startup_error", err);
 	});
 
-	var workers = {
-		watcher: fork(__dirname + "/../workers/watcher", [], {})
-		// web_server: fork(__dirname + "/../workers/web_server", [], {}),
-		// reload: fork(__dirname + "/../workers/reload", [], {})
-	};
+	// Starts the forever running watcher
+	fork(__dirname + "/../workers/watcher", [], {});
 }
 
 process.on("SIGINT", function()
@@ -68,6 +77,23 @@ function log_ready()
 
 	console.log("[X]", `[${ts}]`, "application_server", "ready", elapsed_time);
 }
+
+function log_info(label, message)
+{
+	let now = new Date();
+	let ts = now.toTimeString().substr(0, 8);
+
+	console.log("[X]", `[${ts}]`, "application_server", label, message, chalk.yellow("[INFO]"));
+}
+
+function log_error(label, message)
+{
+	let now = new Date();
+	let ts = now.toTimeString().substr(0, 8);
+
+	console.error("[X]", `[${ts}]`, "application_server", label, message, chalk.red("[ERROR]"));
+}
+
 
 function log_stop()
 {
