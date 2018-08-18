@@ -23,11 +23,10 @@ function start()
 
 	if(env.live_reload == false)
 	{
-		log_info("livereload not configured. See README.md");
+		log_info("live_reload not configured. See README.md");
 	}
 
 	let sf = new StaticFiles(env);
-
 	let sass = new Sass(env);
 	let mb = new MyBrowserify(env);
 
